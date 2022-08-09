@@ -1,38 +1,82 @@
 const express = require('express');
-const abc = require('../introduction/intro')
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    console.log('My batch is', abc.name)
-    abc.printName()
-    logger.welcome()
-
-    res.send('My second ever api!')
+router.get('/movies' , function(req ,res){
+    const array = ['malamaal weekly' , 'dhoom' , 'swadesh' ,' don']
+    res.send(array);
+    console.log(array);
+});
+router.get('/movies/:indexNumber' , function(req ,res){
+    const array = ['iron man' , 'godzilla' , 'anaconda' ,' the mummy']
+    const reqPara= req.params;
+    const index = reqPara.indexNumber ;
+    if( index < array.length ){
+        return res.send(array[index]);
+    }
+    else{
+        return res.send("Plz Enter Valid Index");
+    }
 });
 
-router.get('/students', function (req, res){
-    let students = ['Sabiha', 'Neha', 'Akash']
-    res.send(students)
-})
+router.get("/films" , function (req , res){
+    const obj = [{
+        "id" : 1,
+        "name" : "spiderman home coming"
+    },
+    {
+        "id" : 2 ,
+        "name" : "avengers "
+    },
+    {
+        "id" : 3 ,
+        "name" : "thor rangnok"
+    },
+    {
+        "id" : 4 ,
+        "name" : "iron man"
+    },
+    {
+        "id" : 5 ,
+        "name" : "the nun"
+    }];
 
-router.get('/student-details/:name', function(req, res){
-    /*
-    params is an attribute inside request that contains 
-    dynamic values.
-    This value comes from the request url in the form of an 
-    object where key is the variable defined in code 
-    and value is what is sent in the request
-    */
+    res.send(obj);
+});
 
-    let requestParams = req.params
+router.get("/films/:filmId" , function (req , res){
+    const array = [{
+        "id" : 1,
+        "name" : "spiderman home coming"
+    },
+    {
+        "id" : 2 ,
+        "name" : "avengers"
+    },
+    {
+        "id" : 3 ,
+        "name" : "thor rangnok"
+    },
+    {
+        "id" : 4 ,
+        "name" : "iron man"
+    },
+    {
+        "id" : 5 ,
+        "name" : "the nun"
+    }];
 
-    // JSON strigify function helps to print an entire object
-    // We can use any ways to print an object in Javascript, JSON stringify is one of them
-    console.log("This is the request "+ JSON.stringify(requestParams))
-    let studentName = requestParams.name
-    console.log('Name of the student is ', studentName)
-    
-    res.send('Dummy response')
-})
-
+    const reqParas = req.params;
+    const filmId = reqParas.filmId ;
+    const result = function (){
+        for (let i=0 ; i< array.length ;i++){
+            const obj = array[i];
+            if(obj['id'] == filmId){
+                return res.send(obj)
+            }
+        }
+        return res.send("No Such Film Exist With This Id")
+    }
+    result();
+    //res.send(array);
+});
 module.exports = router;
